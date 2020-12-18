@@ -2,13 +2,12 @@ const socket = io()
 const peers = {}
 const Room = new URLSearchParams(window.location.search).get('room')
 
-socket.on('InitPeer',PeerOption=>{
-    window.myPeer = new Peer(undefined, PeerOption);
-    myPeer.on('open', id => {
-        console.log("hi")
-        socket.emit('JoinRoom', Room, id)
-    })
-});
+const myPeer = new Peer(); 
+myPeer.on('open', id => {
+    console.log("hi")
+    socket.emit('JoinRoom', Room, id)
+})
+
 
 
 navigator.mediaDevices.getUserMedia({video: true,audio: true}).then(stream => {
