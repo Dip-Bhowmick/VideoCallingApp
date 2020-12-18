@@ -6,10 +6,9 @@ const uuid = require('uuid');
 
 const HOST = process.env.HOST || 'localhost'
 const PORT = process.env.PORT || 5000
-const PEEROPTION = process.env.PEEROPTION || {host:HOST, port:9000, path:'/peerserver'}
 
 const peer = require('peer');
-const peerServer = peer.PeerServer(PEEROPTION);
+const peerServer = peer.PeerServer();
 
 const Rooms = {}
 
@@ -35,7 +34,6 @@ app.get('/:room',(req,res)=>{
 })
 
 io.on('connection',socket => {
-    socket.emit('InitPeer',PEEROPTION)
     socket.on('JoinRoom',(Room, id)=>{
         socket.join(Room)
         socket.to(Room).broadcast.emit('NewUser', id)
