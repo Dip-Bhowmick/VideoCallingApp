@@ -7,8 +7,8 @@ const uuid = require('uuid');
 
 const PORT = process.env.PORT
 
-const peer = require('peer');
-const peerServer = peer.PeerServer();
+
+
 
 const Rooms = {}
 
@@ -46,5 +46,5 @@ io.on('connection',socket => {
 });
 
 server.listen(PORT,()=>{
-    console.log(`Server Started at http://${HOST}:${PORT}`);
+    console.log(`Server Started at port ${PORT}`);
 });
