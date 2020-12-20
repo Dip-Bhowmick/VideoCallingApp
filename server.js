@@ -4,15 +4,18 @@ const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const uuid = require('uuid');
 
-
 const PORT = process.env.PORT
 
-
-
-
-const Rooms = {}
+const Peer = require('peer');
+const peerServer = Peer.ExpressPeerServer(server, {
+    path: '/',
+    debug: 1,
+});
 
 app.use(express.static('public'));
+app.use('/PeerServer', peerServer);
+
+const Rooms = {}
 
 app.get('/',(req,res)=>{
     
