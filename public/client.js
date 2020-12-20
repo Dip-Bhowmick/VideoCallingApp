@@ -2,7 +2,11 @@ const socket = io()
 const peers = {}
 const Room = new URLSearchParams(window.location.search).get('room')
 
-const myPeer = new Peer(); 
+const myPeer = new Peer(null,{
+    debug : 1,
+    path : '/PeerServer',
+    host : '/'
+}); 
 myPeer.on('open', id => {
     console.log("hi")
     socket.emit('JoinRoom', Room, id)
