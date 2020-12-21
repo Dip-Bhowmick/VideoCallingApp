@@ -11,7 +11,6 @@ const peerOption = {
 const myPeer = new Peer(null,peerOption)
 myPeer.on('open', id => {
     socket.emit('JoinRoom', Room, id)
-    console.log("my peer id: " + id)
 })
 
 
@@ -39,7 +38,8 @@ navigator.mediaDevices.getUserMedia({video: true,audio: true}).then(stream => {
       call.on('close', () => {
         video.remove()
       })
-      console.log(call)
+      
+      peers[call.peer] = call
     })
   
     socket.on('NewUser',id => {
