@@ -11,6 +11,7 @@ const peerOption = {
 const myPeer = new Peer(null,peerOption)
 myPeer.on('open', id => {
     socket.emit('JoinRoom', Room, id)
+    console.log("my peer id: " + id)
 })
 
 
