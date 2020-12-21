@@ -8,19 +8,19 @@ const PORT = process.env.PORT
 
 const Peer = require('peer');
 const peerServer = Peer.ExpressPeerServer(server, {
-    path: '/',
+    path: '/PeerServer',
     debug: 1,
 });
 
 app.use(express.static('public'));
-app.use('/PeerServer', peerServer);
+app.use('/', peerServer);
 
 const Rooms = {}
 
 app.get('/',(req,res)=>{
     
     var file = __dirname;
-    console.log(req.query)
+    
     if(!req.query.hasOwnProperty('room') || !req.query.hasOwnProperty('pass'))
         file += '/public/home.html'
     else if(Rooms.hasOwnProperty(req.query.room) && 
@@ -42,12 +42,10 @@ io.on('connection',socket => {
         socket.to(Room).broadcast.emit('NewUser', id)
         socket.on('disconnect', () => {
             socket.to(Room).broadcast.emit('UserDisconnected', id)
-            if(io.sockets.adapter.rooms[Room].length == 0)
+            if(io.sockets.adapter.rooms[Room] && io.sockets.adapter.rooms[Room].length == 0)
                 delete Rooms[Room]
         })
     })
 });
 
-server.listen(PORT,()=>{
-    console.log(`Server Started at port ${PORT}`);
-});
+server.listen(PORT);
