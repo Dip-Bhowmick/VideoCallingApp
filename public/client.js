@@ -6,10 +6,10 @@ const peerOption = {
     debug : 1,
     path : '/PeerServer',
     host : '/',
-};
-if (parseInt(window.location.port)) peerOption["port"] = parseInt(window.location.port); 
+}
+if (parseInt(window.location.port)) peerOption["port"] = parseInt(window.location.port)
 
-const myPeer = new Peer(null,peerOption); 
+const myPeer = new Peer(null,peerOption)
 myPeer.on('open', id => {
     socket.emit('JoinRoom', Room, id)
 })
