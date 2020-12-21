@@ -5,7 +5,7 @@ const Room = new URLSearchParams(window.location.search).get('room')
 const peerOption = {
     debug : 1,
     path : '/PeerServer',
-    host : '/',
+    host : window.location.host,
 }
 if (parseInt(window.location.port)) peerOption["port"] = parseInt(window.location.port)
 
