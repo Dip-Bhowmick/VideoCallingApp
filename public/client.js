@@ -35,6 +35,10 @@ navigator.mediaDevices.getUserMedia({video: true,audio: true}).then(stream => {
         })
         document.getElementById('video-grid').append(video)
       })
+      call.on('close', () => {
+        video.remove()
+      })
+      console.log(call)
     })
   
     socket.on('NewUser',id => {
