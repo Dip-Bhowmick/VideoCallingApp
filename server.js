@@ -20,9 +20,6 @@ app.use('/CreateRoom',express.urlencoded({extended: true})); // to support URL-e
 app.use('/', peerServer)
 
 app.get('/',(req,res)=>{
-    res.redirect(`/UUID/${uuid.v4()}`)
-})
-app.get('/UUID/:UUID',(req,res)=>{
     res.sendFile(__dirname+'/public/home.html')
 })
 app.post('/CreateRoom',(req,res)=>{
