@@ -1,16 +1,19 @@
 const socket = io()
 const peers = {}
-const Room = new URLSearchParams(window.location.search).get('room')
+const RoomAndPass = window.location.pathname.split('/')[1].split('+',2)
+const Room = RoomAndPass[0]
+const Pass = RoomAndPass[1]
+document.getElementById('RoomInfo').innerHTML = `RoomID: ${Room} <br>Password: ${Pass} <br>Link: ${window.location.href}`
 
 const peerOption = {
     debug : 1,
     path : '/PeerServer',
-    host : window.location.host,
+    host : window.location.hostName,
 }
 //if (parseInt(window.location.port)) peerOption["port"] = parseInt(window.location.port)
 const myPeer = new Peer(null,peerOption)
 myPeer.on('open', id => {
-    socket.emit('JoinRoom', Room, id)
+    socket.emit('JoinRoom', Room, Pass, id)
 })
 
 
