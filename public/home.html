@@ -6,22 +6,17 @@
     <title>Document</title>
 </head>
 <body>
-    home
+    <form action="/CreateRoom" method="POST">
+        <input type="text" name="Pass" placeholder="Password">
+        <button type="submit">CreateRoom</button>
+    </form>
+    <br>
+    <form action="/JoinRoom" method="POST">
+        <input type="text" name="Room" placeholder="RoomID">
+        <input type="text" name="Pass" placeholder="Password">
+        <button type="submit">JoinRoom</button>
+    </form>
     <script>
-        function Host(Password){
-                const data = { Password:Password};
-
-                fetch('/Host', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-                })
-                .catch((error) => {
-                console.error('Error:', error);
-                });
-        }
     </script>
 </body>
 </html>
