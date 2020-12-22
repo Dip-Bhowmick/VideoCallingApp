@@ -6,9 +6,19 @@
     <title>Title</title>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+    <style>
+        #video-grid{
+            width: 100%;
+        }
+        #video-grid video {
+            width: 50vmin;
+        }
+    </style>
 </head>
 <body>
-    <h3 id="RoomInfo"></h3>
+    <h2 id="RoomInfo"><button onclick="CopyToClip('RoomInfo')">Copy RoomID And PassWord</button></h2>
+    <h2 id="Link"><button onclick="CopyToClip('Link')">Copy Link</button></h2>
+    
     <div id="video-grid"></div>
     <script src="client.js"></script>
 </body>
