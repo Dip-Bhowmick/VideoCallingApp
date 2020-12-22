@@ -23,13 +23,21 @@ app.get('/',(req,res)=>{
     res.sendFile(__dirname+'/public/home.html')
 })
 app.post('/CreateRoom',(req,res)=>{
-    var uuidv4 = uuid.v4()
-    Rooms[uuidv4] = req.body.Pass
-    res.redirect(`/${uuidv4}+${req.body.Pass}`)
+    var room = uuid.v4()
+    var pass = 'HaveNoPassword'
+    if (req.body.Room) room = req.body.Room
+    if (req.body.Pass) pass = req.body.Pass
+    if (Rooms[room]) res.sendFile(__dirname+'/public/error.html')
+    else {
+        Rooms[room] = pass
+        res.redirect(`/${room}+${pass}`)
+    }
 })
 app.post('/JoinRoom',(req,res)=>{
-    if(Rooms[req.body.Room] == req.body.Pass)
-        res.redirect(`/${req.body.Room}+${req.body.Pass}`)
+    var pass = 'HaveNoPassword'
+    if (req.body.Pass) pass = req.body.Pass
+    if(req.body.Room && Rooms[req.body.Room] == pass)
+        res.redirect(`/${req.body.Room}+${pass}`)
 })
 app.get('/:RoomAndPass',(req,res)=>{
     if(Rooms[req.params.RoomAndPass.split('+',2)[0]] == req.params.RoomAndPass.split('+',2)[1])
