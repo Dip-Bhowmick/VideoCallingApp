@@ -8,7 +8,7 @@ document.getElementById('RoomInfo').innerHTML = `RoomID: ${Room} <br>Password: $
 const peerOption = {
     debug : 1,
     path : '/PeerServer',
-    host : window.location.hostName,
+    host : window.location.hostname,
 }
 //if (parseInt(window.location.port)) peerOption["port"] = parseInt(window.location.port)
 const myPeer = new Peer(null,peerOption)
