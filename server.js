@@ -12,39 +12,46 @@ const peerServer = Peer.ExpressPeerServer(server, {
     debug: 1,
 });
 
-app.use(express.static('public'));
-app.use('/', peerServer);
-
 const Rooms = {}
 
+app.use(express.static('public'))
+//app.use(express.json());       // to support JSON-encoded bodies (fetch)
+app.use('/CreateRoom',express.urlencoded({extended: true})); // to support URL-encoded bodies (form)
+app.use('/', peerServer)
+
 app.get('/',(req,res)=>{
-    
-    var file = __dirname;
-    
-    if(!req.query.hasOwnProperty('room') || !req.query.hasOwnProperty('pass'))
-        file += '/public/home.html'
-    else if(Rooms.hasOwnProperty(req.query.room) && 
-        Rooms[req.query.room] == req.query.pass)
-        file += '/public/room.html';
-    else
-        file += '/public/error.html';
-    res.sendFile(file);
-    
-   res.redirect(`${uuid.v4()}`)
+    res.redirect(`/UUID/${uuid.v4()}`)
 })
-app.get('/:room',(req,res)=>{
+app.get('/UUID/:UUID',(req,res)=>{
+    res.sendFile(__dirname+'/public/home.html')
+})
+app.post('/CreateRoom',(req,res)=>{
+    var uuidv4 = uuid.v4()
+    Rooms[uuidv4] = req.body.Pass
+    res.redirect(`/${uuidv4}+${req.body.Pass}`)
+})
+app.post('/JoinRoom',(req,res)=>{
+    if(Rooms[req.body.Room] == req.body.Pass)
+        res.redirect(`/${req.body.Room}+${req.body.Pass}`)
+})
+app.get('/:RoomAndPass',(req,res)=>{
+    if(Rooms[req.params.RoomAndPass.split('+',2)[0]] == req.params.RoomAndPass.split('+',2)[1])
     res.sendFile(__dirname+'/public/room.html')
+    else 
+    res.sendFile(__dirname+'/public/error.html')
 })
 
 io.on('connection',socket => {
-    socket.on('JoinRoom',(Room, id)=>{
-        socket.join(Room)
-        socket.to(Room).broadcast.emit('NewUser', id)
-        socket.on('disconnect', () => {
-            socket.to(Room).broadcast.emit('UserDisconnected', id)
-            if(io.sockets.adapter.rooms[Room] && io.sockets.adapter.rooms[Room].length == 0)
-                delete Rooms[Room]
-        })
+    socket.on('JoinRoom',(Room, Pass, id)=>{
+        if (Rooms[Room] == Pass) {
+            socket.join(Room)
+            socket.to(Room).broadcast.emit('NewUser', id)
+            socket.on('disconnect', () => {
+                socket.to(Room).broadcast.emit('UserDisconnected', id)
+                if(io.sockets.adapter.rooms[Room] && io.sockets.adapter.rooms[Room].length == 0)
+                    delete Rooms[Room]
+            })
+        }
     })
 });
 
