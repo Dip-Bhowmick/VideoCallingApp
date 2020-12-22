@@ -3,7 +3,8 @@ const peers = {}
 const RoomAndPass = window.location.pathname.split('/')[1].split('+',2)
 const Room = RoomAndPass[0]
 const Pass = RoomAndPass[1]
-document.getElementById('RoomInfo').innerHTML = `RoomID: ${Room} <br>Password: ${Pass} <br>Link: ${window.location.href}`
+document.getElementById('RoomInfo').innerHTML = `RoomID: ${Room} <br>Password: ${Pass}`
+document.getElementById('Link').innerHTML = `Link: <a href="${window.location.href}">${window.location.href}</a>`
 
 const peerOption = {
     debug : 1,
