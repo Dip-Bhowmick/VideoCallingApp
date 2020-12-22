@@ -20,6 +20,17 @@
     <h2 id="Link"><button onclick="CopyToClip('Link')">Copy Link</button></h2>
     
     <div id="video-grid"></div>
+    <script>
+        function CopyToClip(ElementID) {
+            var copyText = document.getElementById(ElementID);
+            var textArea = document.createElement("textarea");
+            textArea.value = copyText.innerText;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand("Copy");
+            textArea.remove();
+        }
+    </script>
     <script src="client.js"></script>
 </body>
 </html>
