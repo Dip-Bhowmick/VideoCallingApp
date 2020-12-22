@@ -6,15 +6,18 @@
     <title>Document</title>
 </head>
 <body>
+    <h4>Blank RoomID Will Auto Genarate Random RoomID</h4>
+    <h4>Blank Password Will Make The Room Open For All No Password Reqiure To Join</h4>
+    <br><br>
     <form action="/CreateRoom" method="POST">
-        <input type="text" name="Room" placeholder="RoomID">
-        <input type="text" name="Pass" placeholder="Password">
+        <input type="text" name="Room" pattern="[A-Za-z0-9]{0,8}" placeholder="RoomID">
+        <input type="text" name="Pass" pattern="[A-Za-z0-9]{0,8}" placeholder="Password">
         <button type="submit">CreateRoom</button>
     </form>
-    <br>
+    <br><br>
     <form action="/JoinRoom" method="POST">
-        <input type="text" name="Room" placeholder="RoomID">
-        <input type="text" name="Pass" placeholder="Password">
+        <input type="text" name="Room" pattern="[A-Za-z0-9]{0,8}" placeholder="RoomID">
+        <input type="text" name="Pass" pattern="[A-Za-z0-9]{0,8}" placeholder="Password">
         <button type="submit">JoinRoom</button>
     </form>
     <script>
